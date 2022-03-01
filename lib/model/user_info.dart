@@ -9,14 +9,14 @@ class UserInfo {
   factory UserInfo() => _instance;
 
   final _box = GetStorage();
-  final String _loginInfoKey = "loginMode";
+  final String _loginModeKey = "loginMode";
   final String _userInfoKey = "user";
 
-  saveLoginMode(bool isLoginMode) => _box.write(_loginInfoKey, isLoginMode);
+  saveLoginMode({required bool isLoginMode}) => _box.write(_loginModeKey, isLoginMode);
 
-  bool getLoginMode() => _box.read(_loginInfoKey) ?? false;
+  bool getLoginMode() => _box.read(_loginModeKey)??false;
 
-  saveProfile(User user)=> _box.write(_userInfoKey, user);
+  saveUser({required User user})=> _box.write(_userInfoKey, user);
 
-  User getProfile() => _box.read(_userInfoKey);
+  User getUser() => _box.read(_userInfoKey);
 }

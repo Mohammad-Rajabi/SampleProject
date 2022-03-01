@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sample_project/model/auth_response_model.dart';
 import 'package:sample_project/model/local_data_source.dart';
 import 'package:sample_project/model/user_info.dart';
 import 'package:sample_project/view/home_page.dart';
@@ -38,17 +39,28 @@ class LoginViewModel extends GetxController {
       return null;
   }
 
-  void loginButtonClicked() {
+  Future<void> loginButtonClicked() async {
     if(formKey.currentState!.validate()){
       isLoading.value = true;
-      LocalDataSource().authentication(usernameController.text).then((user) {
-        isLoading.value = false;
-        UserInfo userInfo = UserInfo();
-        userInfo.saveLoginMode(true);
-        userInfo.saveProfile(user);
+
+      AuthResponse response = await LocalDataSource().authentication(usernameController.text);
+      if(response.isUser){
+        UserInfo().saveLoginMode(isLoginMode: true);
+        UserInfo().saveUser(user:response.user!);
         Get.off(()=>HomePage());
-      });
+      }else{
+        showSnack(title:"Authentication",message: "User doesn't exist",icon:Icon(Icons.error_outline,color: Colors.red,));
+      }
+      isLoading.value = false;
     }
+  }
+  void showSnack(
+      {required String title, required String message, required Widget icon}) {
+    Get.snackbar(title, message,
+        backgroundColor: Colors.grey,
+        snackPosition: SnackPosition.BOTTOM,
+        icon: icon,
+        margin: EdgeInsets.all(16));
   }
 
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sample_project/helper/binding.dart';
+import 'package:sample_project/view/home_page.dart';
 import 'package:sample_project/view/login_page.dart';
+import 'package:sample_project/view/profile_page.dart';
 import 'package:sample_project/view/splash_screen_page.dart';
 
 import 'helper/constants.dart';
@@ -19,6 +21,8 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/$SPLASH_SCREEN_PAGE', page: () => SplashScreenPage()),
         GetPage(name: '/$LOGING_PAGE', page: () => LoginPage()),
+        GetPage(name: '/$HOME_PAGE', page: () => HomePage()),
+        GetPage(name: '/$PROFILE_PAGE', page: () => ProfilePage()),
       ],
       theme: ThemeData(
         inputDecorationTheme: InputDecorationTheme(

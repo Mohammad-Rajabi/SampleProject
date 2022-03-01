@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:sample_project/helper/app_colors.dart';
 import 'package:sample_project/viewModel/login_view_model.dart';
 
-class LoginPage extends StatelessWidget{
+class LoginPage extends StatelessWidget {
+  final LoginViewModel _loginViewModel = Get.find<LoginViewModel>();
+
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppColors.WHITE,
       body: _buildBody(),
@@ -19,44 +20,44 @@ class LoginPage extends StatelessWidget{
       child: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 32),
         child: Obx(() => Form(
-          child: Column(
-            children: [
-              SvgPicture.asset(
-                'assets/images/access_account.svg',
-                height: 200,
-                width: 200,
+              key: _loginViewModel.formKey,
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/access_account.svg',
+                    height: 200,
+                    width: 200,
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  _usernameField(),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _passwordField(),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _loginButton(),
+                  SizedBox(
+                    height: 32,
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 24,
-              ),
-              _usernameField(),
-              SizedBox(
-                height: 16,
-              ),
-              _passwordField(),
-              SizedBox(
-                height: 16,
-              ),
-              _loginButton(),
-              SizedBox(
-                height: 32,
-              ),
-            ],
-          ),
-        )),
+            )),
       ),
     );
   }
 
-
   Widget _passwordField() {
     return TextFormField(
       maxLines: 1,
-      validator: Get.find<LoginViewModel>().passwordValidate,
-      controller: Get.find<LoginViewModel>().passwordController,
+      validator: _loginViewModel.passwordValidate,
+      controller: _loginViewModel.passwordController,
       keyboardType: TextInputType.number,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      obscureText: Get.find<LoginViewModel>().isObscure.value,
+      obscureText: _loginViewModel.isObscure.value,
       style: TextStyle(color: AppColors.DARK_GREY, fontSize: 16),
       decoration: InputDecoration(
           hintText: "password",
@@ -65,11 +66,11 @@ class LoginPage extends StatelessWidget{
           prefixIcon: Icon(Icons.lock_outline, color: AppColors.DARK_GREY),
           suffixIcon: GestureDetector(
             onTap: () {
-              Get.find<LoginViewModel>().isObscure.value =
-              !Get.find<LoginViewModel>().isObscure.value;
+              _loginViewModel.isObscure.value =
+                  !_loginViewModel.isObscure.value;
             },
             child: Icon(
-                Get.find<LoginViewModel>().isObscure.value
+                _loginViewModel.isObscure.value
                     ? Icons.visibility_off
                     : Icons.visibility,
                 color: AppColors.GREY),
@@ -81,15 +82,16 @@ class LoginPage extends StatelessWidget{
     return TextFormField(
       maxLines: 1,
       keyboardType: TextInputType.text,
-      controller: Get.find<LoginViewModel>().usernameController,
+      controller: _loginViewModel.usernameController,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: Get.find<LoginViewModel>().usernameValidate,
+      validator: _loginViewModel.usernameValidate,
       style: TextStyle(color: AppColors.DARK_GREY, fontSize: 16),
       decoration: InputDecoration(
         hintText: "username",
         hintStyle: TextStyle(color: AppColors.DARK_GREY, fontSize: 16),
         contentPadding: EdgeInsets.all(8),
-        prefixIcon: Icon(Icons.person_outline_outlined, color: AppColors.DARK_GREY),
+        prefixIcon:
+            Icon(Icons.person_outline_outlined, color: AppColors.DARK_GREY),
       ),
     );
   }
@@ -102,23 +104,23 @@ class LoginPage extends StatelessWidget{
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             primary: AppColors.BLUE),
-        onPressed: Get.find<LoginViewModel>().loginButtonClicked,
+        onPressed: _loginViewModel.loginButtonClicked,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 16),
-          child: Get.find<LoginViewModel>().isLoading.value ?Container(
-            width: 24,
-            height: 24,
-            child: CircularProgressIndicator(
-              backgroundColor: AppColors.BLUE,
-              color:AppColors.WHITE,
-              strokeWidth: 3,
-            ),
-          ): Text(
-              'log in',
-              style: TextStyle(color: AppColors.WHITE, fontSize: 16)),
+          child: _loginViewModel.isLoading.value
+              ? Container(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(
+                    backgroundColor: AppColors.BLUE,
+                    color: AppColors.WHITE,
+                    strokeWidth: 3,
+                  ),
+                )
+              : Text('log in',
+                  style: TextStyle(color: AppColors.WHITE, fontSize: 16)),
         ),
       ),
     );
   }
-
 }
