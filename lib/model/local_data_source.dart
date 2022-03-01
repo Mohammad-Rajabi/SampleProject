@@ -41,4 +41,14 @@ class LocalDataSource {
   Future<List<User>> getUsersLocally() async{
     return readFromJsonFile();
   }
+  
+  Future<User> getFriendProfile(String guid)async{
+    User user;
+    List<User> users = await readFromJsonFile();
+    user = users.firstWhere((user) =>
+      user.guid == guid, orElse: ()=>User(guid: ""
+        "",name: "",isOwner:false,gender: "")
+    );
+    return Future.value(user);
+  }
 }

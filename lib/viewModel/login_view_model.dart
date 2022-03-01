@@ -5,6 +5,7 @@ import 'package:sample_project/model/auth_response_model.dart';
 import 'package:sample_project/model/local_data_source.dart';
 import 'package:sample_project/model/user_info.dart';
 import 'package:sample_project/view/home_page.dart';
+import 'package:sample_project/widget/snack_bar.dart';
 
 class LoginViewModel extends GetxController {
   RxBool isObscure = true.obs;
@@ -53,14 +54,6 @@ class LoginViewModel extends GetxController {
       }
       isLoading.value = false;
     }
-  }
-  void showSnack(
-      {required String title, required String message, required Widget icon}) {
-    Get.snackbar(title, message,
-        backgroundColor: Colors.grey,
-        snackPosition: SnackPosition.BOTTOM,
-        icon: icon,
-        margin: EdgeInsets.all(16));
   }
 
 }

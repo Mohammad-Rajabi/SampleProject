@@ -9,7 +9,6 @@ import 'package:sample_project/widget/profile_app_bar.dart';
 import 'package:sample_project/widget/shimmer_widget.dart';
 
 class HomePage extends StatelessWidget {
-
   final HomeViewModel _homeViewModel = Get.find<HomeViewModel>();
 
   @override
@@ -18,7 +17,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.GREY,
-      appBar: ProfileAppBar(
+      appBar: ShowingUserInfoAppBar(
         profileImageUrl: userInfo.getUser().picture,
         username: userInfo.getUser().name,
         callback: _homeViewModel.navigateToProfilePage,
@@ -49,10 +48,12 @@ class HomePage extends StatelessWidget {
 
   Widget _buildUsersListItem(int index) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       elevation: 2,
       color: AppColors.WHITE,
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16))),
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,31 +79,43 @@ class HomePage extends StatelessWidget {
                     backgroundImage: imageProvider,
                   ),
                 ),
-                SizedBox(width: 16,),
+                SizedBox(
+                  width: 16,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text(
-                  _homeViewModel.usersList[index].name,
-                  style: TextStyle(color: AppColors.BLACK,fontSize: 16),
-                ),
-                SizedBox(height: 8,),
-                Text(
-                  _homeViewModel.usersList[index].email,
-                  style: TextStyle(color: AppColors.BLACK,fontSize: 16),
-                ),
+                    Text(
+                      _homeViewModel.usersList[index].name,
+                      style: TextStyle(color: AppColors.BLACK, fontSize: 16),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      _homeViewModel.usersList[index].email,
+                      style: TextStyle(color: AppColors.BLACK, fontSize: 16),
+                    ),
                   ],
                 )
               ],
             ),
-            SizedBox(height: 16,),
+            SizedBox(
+              height: 16,
+            ),
             RichText(
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                  text: "Address: " + _homeViewModel.usersList[index].address,
-                  style: TextStyle(color: AppColors.BLACK,fontSize: 16),
-                ))
+                    text: "Address: ",
+                    style: TextStyle(color: AppColors.BLACK, fontSize: 16),
+                    children: [
+                      TextSpan(
+                        text: _homeViewModel.usersList[index].address,
+                        style:
+                            TextStyle(color: AppColors.DARK_GREY, fontSize: 14),
+                      )
+                    ]))
           ],
         ),
       ),
@@ -114,31 +127,37 @@ class HomePage extends StatelessWidget {
       elevation: 2,
       color: AppColors.WHITE,
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16))),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16))),
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                ShimmerWidget.circular(width: 64,height: 64),
-                SizedBox(width: 16,),
+                ShimmerWidget.circular(width: 64, height: 64),
+                SizedBox(
+                  width: 16,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ShimmerWidget.rectangular(width: 60,height: 16),
-                    SizedBox(height: 8,),
-                    ShimmerWidget.rectangular(width: 120,height: 16),
+                    ShimmerWidget.rectangular(width: 60, height: 16),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    ShimmerWidget.rectangular(width: 120, height: 16),
                   ],
                 )
               ],
             ),
-            SizedBox(height: 16,),
+            SizedBox(
+              height: 16,
+            ),
             ShimmerWidget.rectangular(height: 16),
           ],
         ),
       ),
     );
   }
-
 }
